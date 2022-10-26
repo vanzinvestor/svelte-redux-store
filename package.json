@@ -1,0 +1,32 @@
+{
+  "name": "svelte-redux-store",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vanzinvestor/svelte-redux-store"
+  },
+  "keywords": [
+    "svelte",
+    "redux",
+    "store"
+  ],
+  "homepage": "https://github.com/vanzinvestor/svelte-redux-store",
+  "author": "Vanz Investor <vanzinvestor@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "redux": "^4.2.0",
+    "redux-thunk": "^2.4.1",
+    "svelte": "^3.52.0"
+  },
+  "devDependencies": {
+    "tslib": "^2.4.0",
+    "typescript": "^4.6.4"
+  }
+}
