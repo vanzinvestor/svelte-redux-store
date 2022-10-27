@@ -17,7 +17,7 @@ npm install redux redux-devtools-extension redux-thunk
 ### Step 1 Create svelte redux store
 
 ```ts
-// store/store.ts
+// src/store/store.ts
 import { applyMiddleware, createStore, type Middleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
@@ -50,7 +50,7 @@ export const {
 ### Step 2 Create counter action type
 
 ```ts
-// store/actions/couter.actions.ts
+// src/store/actions/couter.actions.ts
 export enum CountActionTypes {
   COUNTER_INCREMENT = '[Counter] Increment',
   COUNTER_DECREMENT = '[Counter] Decrement',
@@ -70,7 +70,7 @@ export type Action = CounterIncrementAction | CounterDecrementAction;
 ### Step 3 Create counter creator
 
 ```ts
-// store/creators/couter.creators.ts
+// src/store/creators/couter.creators.ts
 import type { Dispatch } from 'redux';
 import { Action } from './../actions/couter.actions';
 
@@ -88,7 +88,7 @@ export const decrement = () => async (dispatch: Dispatch<Action>) => {
 ```ts
 import { Action, CountActionTypes } from './../actions/couter.actions';
 
-// store/reducers/couter.reducer.ts
+// src/store/reducers/couter.reducer.ts
 interface CountState {
   count: number;
 }
@@ -117,7 +117,7 @@ export const counterReducer = (
 ### Step 5 Create root reducer
 
 ```ts
-// store/reducers/index.ts
+// src/store/reducers/index.ts
 import { combineReducers } from 'redux';
 import { counterReducer } from './counter.reducer';
 
@@ -131,7 +131,7 @@ export default rootReducers;
 ### Step 6 Use in components (App.svelte)
 
 ```svelte
-// App.svelte
+// src/App.svelte
 <script lang="ts">
   import { increment, decrement } from './store/creators';
    import { useDispatch,useSelector, useStore, useSubscribe, type AppState } from './store/store';
@@ -236,9 +236,17 @@ export default rootReducers;
 </style>
 ```
 
+### Step 7 Install Redux DevTools Extension (Chrome Browser)
+
+[Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd])
+
+### Step 8 Chrome Browser And Press F12 (Developer tools) and See Redux tab
+
+![Result](./svelte-redux-store-demo.png)
+
 ## Example App
 
-[Counter App]()
+[Counter App](https://github.com/vanzinvestor/example-svelte-redux-store-counter-app)
 
 ## Inspire by
 
