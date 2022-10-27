@@ -8,18 +8,18 @@ import {
 declare type Invalidator<T> = (value?: T) => void;
 
 export function createSelector<TState = unknown>(store: Readable<TState>) {
-  return function useSelector<TState, Selected extends unknown>(
-    selector: (values: TState) => Selected
+  return function useSelector<TState, TSelected extends unknown>(
+    selector: (values: TState) => TSelected
   ): {
     subscribe: (
       this: void,
-      run: Subscriber<Selected>,
-      invalidate?: Invalidator<Selected>
+      run: Subscriber<TSelected>,
+      invalidate?: Invalidator<TSelected>
     ) => Unsubscriber;
   } {
     const { subscribe } = derived<
       Readable<TState>,
-      Selected
+      TSelected
       // @ts-ignore
     >(store, selector);
 

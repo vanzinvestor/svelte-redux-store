@@ -6,9 +6,15 @@
 npm install svelte-redux-store
 ```
 
+Install redux package
+
+```bash
+npm install redux redux-devtools-extension redux-thunk
+```
+
 ## Use
 
-### Step 1 Create redux store
+### Step 1 Create svelte redux store
 
 ```ts
 // store/store.ts
@@ -16,7 +22,7 @@ import { applyMiddleware, createStore, type Middleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import rootReducers from './reducers';
-import { creatReduxStore } from 'svelte-redux-store'; //import this line
+import { creatSvelteReduxStore } from 'svelte-redux-store'; //import this line
 
 export type AppState = ReturnType<typeof rootReducers>;
 
@@ -31,13 +37,14 @@ const devTools =
 
 const store = createStore(rootReducers, initialState, devTools);
 
+// create svelte redux store
 export const {
   useStore,
   useDispatch,
   useSelector,
   useFeatureSelector,
   useSubscribe,
-} = creatReduxStore<AppState>(store);
+} = creatSvelteReduxStore<AppState>(store);
 ```
 
 ### Step 2 Create counter action type
@@ -154,7 +161,7 @@ export default rootReducers;
 
 <div class="app">
   <div class="home">
-    <h1>State Management With Redux</h1>
+    <h1>Svelte State Management With Redux</h1>
     <div class="list">
       <div class="list-item">
         <p>Counter:</p>
