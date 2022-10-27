@@ -1,5 +1,7 @@
 # Svelte Redux Store
 
+Use svelte with redux store. look like react-redux
+
 ## Install
 
 Create new app (If you use in your template. Please see note in below)
@@ -176,8 +178,10 @@ export default rootReducers;
         <p>Counter:</p>
         <div class="btn-group">
           <button class="btn" on:click={decrement}> - </button>
-          <p>{$count}</p>  <!-- USE SELECTOR -->
-          <!-- <p>{count}</p> -->  <!-- USE SUBSCRIBE -->
+          <!-- USE SELECTOR -->
+          <p>{$count}</p>
+          <!-- USE SUBSCRIBE -->
+          <!-- <p>{count}</p> -->
           <button class="btn" on:click={increment}> + </button>
         </div>
       </div>
