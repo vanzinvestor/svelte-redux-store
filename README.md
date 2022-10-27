@@ -2,6 +2,15 @@
 
 ## Install
 
+Create new app (If you use in your template. Please see note in below)
+
+```bash
+npx degit vanzinvestor/svelte-typescript-template svelte-typescript-redux-app
+cd svelte-typescript-redux-app
+```
+
+Install svelte-redux-store package
+
 ```bash
 npm install svelte-redux-store
 ```
@@ -247,6 +256,37 @@ export default rootReducers;
 ## Example App
 
 [Counter App](https://github.com/vanzinvestor/example-svelte-redux-store-counter-app)
+
+## Note: Make svelte support Redux
+
+Install replace package
+
+```bash
+npm install @rollup/plugin-replace
+```
+
+Change `rollup.config.js`
+
+```js
+// rollup.config.js
+import replace from '@rollup/plugin-replace'; // Import this
+
+export default {
+  // ...
+  plugins: [
+    // ...
+    // Add this
+    replace({
+      preventAssignment: true,
+      'process.env.NODE_ENV': production
+        ? JSON.stringify('production')
+        : JSON.stringify('development'),
+    }),
+    // ...
+  ],
+  // ...
+};
+```
 
 ## Inspire by
 
