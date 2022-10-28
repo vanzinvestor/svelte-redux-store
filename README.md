@@ -33,7 +33,12 @@ import { applyMiddleware, createStore, type Middleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import rootReducers from './reducers';
-import { creatSvelteReduxStore } from 'svelte-redux-store'; //import this line
+import {
+  createUseEffect,
+  createUseState,
+  creatSvelteReduxStore,
+} from 'svelte-redux-store'; //import this line
+import { onMount } from 'svelte';
 
 export type AppState = ReturnType<typeof rootReducers>;
 
@@ -56,6 +61,12 @@ export const {
   useFeatureSelector,
   useSubscribe,
 } = creatSvelteReduxStore<AppState>(store);
+
+// create setState (if you want)
+export const { useState } = createUseState();
+
+// create useEffect (if you want)
+export const { useEffect } = createUseEffect(onMount);
 ```
 
 ### Step 2 Create counter action type
@@ -65,6 +76,7 @@ export const {
 export enum CountActionTypes {
   COUNTER_INCREMENT = '[Counter] Increment',
   COUNTER_DECREMENT = '[Counter] Decrement',
+  COUNTER_RESET = '[Counter] Reset',
 }
 
 export interface CounterIncrementAction {
@@ -75,7 +87,14 @@ export interface CounterDecrementAction {
   readonly type: CountActionTypes.COUNTER_DECREMENT;
 }
 
-export type Action = CounterIncrementAction | CounterDecrementAction;
+export interface CounterResetAction {
+  readonly type: CountActionTypes.COUNTER_RESET;
+}
+
+export type Action =
+  | CounterIncrementAction
+  | CounterDecrementAction
+  | CounterResetAction;
 ```
 
 ### Step 3 Create counter creator
@@ -91,6 +110,10 @@ export const increment = () => async (dispatch: Dispatch<Action>) => {
 
 export const decrement = () => async (dispatch: Dispatch<Action>) => {
   dispatch({ type: CountActionTypes.COUNTER_DECREMENT });
+};
+
+export const reset = () => async (dispatch: Dispatch<Action>) => {
+  dispatch({ type: CountActionTypes.COUNTER_RESET });
 };
 ```
 
@@ -119,6 +142,9 @@ export const counterReducer = (
     case CountActionTypes.COUNTER_DECREMENT:
       return { ...state, count: state.count - 1 };
 
+    case CountActionTypes.COUNTER_RESET:
+      return { ...state, count: 0 };
+
     default:
       return state;
   }
@@ -144,10 +170,19 @@ export default rootReducers;
 ```svelte
 // src/App.svelte
 <script lang="ts">
-  import { increment, decrement } from './store/creators';
-   import { useDispatch,useSelector, useStore, useSubscribe, type AppState } from './store/store';
+// import {useState} from 'svelte-redux-store'
+  import { decrement, increment, reset } from './store/creators';
+  import {
+    useDispatch,
+    useEffect,
+    useState,
+    useStore,
+    type AppState,
+  } from './store/store';
   const store = useStore();
   // const dispatch = useDispatch();
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const decrement = () => {
     store.dispatch(decrement());
@@ -168,6 +203,27 @@ export default rootReducers;
 
   // let count:number
   // useSubscribe((state:AppState) => { count = state.counts.count })
+
+
+  const handleClick = () => {
+    setIsOpen(!$isOpen);
+
+    if (!$isOpen && $count > 0) {
+      store.dispatch(reset());
+    }
+  };
+
+  useEffect(() => {
+    alert('useEffect onMount');
+  }, []);
+
+  let value;
+
+  $: useEffect(() => {
+    if ($isOpen) {
+      value = $count * 2;
+    }
+  }, [$isOpen, $count]);
 </script>
 
 <div class="app">
@@ -178,12 +234,25 @@ export default rootReducers;
         <p>Counter:</p>
         <div class="btn-group">
           <button class="btn" on:click={decrement}> - </button>
-          <!-- USE SELECTOR -->
           <p>{$count}</p>
-          <!-- USE SUBSCRIBE -->
-          <!-- <p>{count}</p> -->
           <button class="btn" on:click={increment}> + </button>
         </div>
+      </div>
+    </div>
+    <h1>useState</h1>
+    <div class="list">
+      <div class="list-item">
+        <button class="btn" on:click={handleClick}>
+          {#if $isOpen}Close/Reset{:else}Show{/if}</button
+        >
+      </div>
+    </div>
+    <h1>useEffect</h1>
+    <div class="list">
+      <div class="list-item">
+        {#if $isOpen}
+          <h2>Value: {value}</h2>
+        {/if}
       </div>
     </div>
   </div>
@@ -291,6 +360,16 @@ export default {
   // ...
 };
 ```
+
+## API
+
+[useStore](useStore)
+[useDispatch](useDispatch)
+[useSelector](useSelector)
+[useFeatureSelector](useFeatureSelector)
+[useSubscribe](useFeatureSelector)
+[useState](useState)
+[useEffect](useEffect)
 
 ## Inspire by
 
