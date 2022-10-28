@@ -234,7 +234,10 @@ export default rootReducers;
         <p>Counter:</p>
         <div class="btn-group">
           <button class="btn" on:click={decrement}> - </button>
+          <!-- USE SELECTOR -->
           <p>{$count}</p>
+          <!-- USE SUBSCRIBE -->
+          <!-- <p>{count}</p> -->
           <button class="btn" on:click={increment}> + </button>
         </div>
       </div>
