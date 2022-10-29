@@ -62,8 +62,10 @@ export const {
   useSubscribe,
 } = creatSvelteReduxStore<AppState>(store);
 
-// create setState (if you want)
+// create useState (if you want)
 export const { useState } = createUseState();
+// OR
+// import {useState} from 'svelte-redux-store'
 
 // create useEffect (if you want)
 export const { useEffect } = createUseEffect(onMount);
@@ -120,9 +122,9 @@ export const reset = () => async (dispatch: Dispatch<Action>) => {
 ### Step 4 Create counter reducer
 
 ```ts
+// src/store/reducers/couter.reducer.ts
 import { Action, CountActionTypes } from './../actions/couter.actions';
 
-// src/store/reducers/couter.reducer.ts
 interface CountState {
   count: number;
 }
