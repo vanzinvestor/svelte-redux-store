@@ -74,7 +74,7 @@ export const { useEffect } = createUseEffect(onMount);
 ### Step 2 Create counter action type
 
 ```ts
-// src/store/actions/couter.actions.ts
+// src/store/actions/counter.actions.ts
 export enum CountActionTypes {
   COUNTER_INCREMENT = '[Counter] Increment',
   COUNTER_DECREMENT = '[Counter] Decrement',
@@ -102,9 +102,9 @@ export type Action =
 ### Step 3 Create counter creator
 
 ```ts
-// src/store/creators/couter.creators.ts
+// src/store/creators/counter.creators.ts
 import type { Dispatch } from 'redux';
-import { Action } from './../actions/couter.actions';
+import { Action } from './../actions/counter.actions';
 
 export const increment = () => async (dispatch: Dispatch<Action>) => {
   dispatch({ type: CountActionTypes.COUNTER_INCREMENT });
@@ -122,8 +122,8 @@ export const reset = () => async (dispatch: Dispatch<Action>) => {
 ### Step 4 Create counter reducer
 
 ```ts
-// src/store/reducers/couter.reducer.ts
-import { Action, CountActionTypes } from './../actions/couter.actions';
+// src/store/reducers/counter.reducer.ts
+import { Action, CountActionTypes } from './../actions/counter.actions';
 
 interface CountState {
   count: number;
@@ -196,7 +196,7 @@ export default rootReducers;
     // dispatch(increment());
   };
 
-  const count = store.selector((state: AppState) => state.counts.count);
+  const count = store.selector((state: AppState) => state.count.count);
 
   // const count = useSelector((state: AppState) => state.counts.count);
 
