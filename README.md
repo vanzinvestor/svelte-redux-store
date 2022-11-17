@@ -6,24 +6,6 @@ Use svelte with redux store. look like react-redux
 
 [Demo](https://stackblitz.com/edit/vitejs-vite-58jy3l?file=src%2FApp.svelte)
 
-## Create new app (If you want)
-
-### vite
-
-```bash
-npm create vite@latest svelte-typescript-redux-app -- --template svelte-ts
-cd svelte-typescript-redux-app
-```
-
-### rollup
-
-(If you use in your template. Please see note in below)
-
-```bash
-npx degit vanzinvestor/svelte-typescript-template svelte-typescript-redux-app
-cd svelte-typescript-redux-app
-```
-
 ## Install
 
 Install svelte-redux-store package
@@ -85,6 +67,8 @@ export const { useState } = createUseState();
 // create useEffect (if you want)
 export const { useEffect } = createUseEffect(onMount);
 ```
+
+Remark: If you use rollup.js. Please see note in below
 
 ### Step 2 Create counter action type
 
