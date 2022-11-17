@@ -2,14 +2,29 @@
 
 Use svelte with redux store. look like react-redux
 
-## Install
+[![npm version](https://badge.fury.io/js/svelte-redux-store.svg)](https://badge.fury.io/js/svelte-redux-store)
 
-Create new app (If you use in your template. Please see note in below)
+[Demo](https://stackblitz.com/edit/vitejs-vite-58jy3l?file=src%2FApp.svelte)
+
+## Create new app (If you want)
+
+### vite
+
+```bash
+npm create vite@latest svelte-typescript-redux-app -- --template svelte-ts
+cd svelte-typescript-redux-app
+```
+
+### rollup
+
+(If you use in your template. Please see note in below)
 
 ```bash
 npx degit vanzinvestor/svelte-typescript-template svelte-typescript-redux-app
 cd svelte-typescript-redux-app
 ```
+
+## Install
 
 Install svelte-redux-store package
 
