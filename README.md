@@ -48,8 +48,13 @@ const devTools =
     ? applyMiddleware(...middleware)
     : composeWithDevTools(applyMiddleware(...middleware));
 
-const store = createStore(rootReducers, initialState, devTools);
+export const store = createStore(rootReducers, initialState, devTools);
 
+/**
+ * If you use <Provider> (version 2.0.0 or latest).
+ * you can import method from svelte-redux-store.
+ * you don't have to create svelte redux store
+ * /
 // create svelte redux store
 export const {
   useStore,
@@ -70,7 +75,34 @@ export const { useEffect } = createUseEffect(onMount);
 
 Remark: If you use rollup.js. Please see note in below
 
-### Step 2 Create counter action type
+### Step 2 Wrapped app component with `<Provider {store}></Provider>` _version 2.0.0 or latest (If you want)_
+
+```svelte
+// src/Main.svelte
+<script lang="ts">
+  import { Provider } from 'svelte-redux-store';
+  import App from './App.svelte';
+  import { store } from './store/store';
+</script>
+
+<Provider {store}>
+  <App />
+</Provider>
+```
+
+```ts
+// src/main.ts
+import Main from './Main.svelte';
+
+const main = new Main({
+  target: document.getElementById('app'), // vite
+  // target: document.body, // rollup
+});
+
+export default main;
+```
+
+### Step 3 Create counter action type
 
 ```ts
 // src/store/actions/counter.actions.ts
@@ -98,7 +130,7 @@ export type Action =
   | CounterResetAction;
 ```
 
-### Step 3 Create counter creator
+### Step 4 Create counter creator
 
 ```ts
 // src/store/creators/counter.creators.ts
@@ -118,7 +150,7 @@ export const reset = () => async (dispatch: Dispatch<Action>) => {
 };
 ```
 
-### Step 4 Create counter reducer
+### Step 5 Create counter reducer
 
 ```ts
 // src/store/reducers/counter.reducer.ts
@@ -152,7 +184,7 @@ export const counterReducer = (
 };
 ```
 
-### Step 5 Create root reducer
+### Step 6 Create root reducer
 
 ```ts
 // src/store/reducers/index.ts
@@ -166,18 +198,32 @@ const rootReducers = combineReducers({
 export default rootReducers;
 ```
 
-### Step 6 Use in components (App.svelte)
+### Step 7 Use in components (App.svelte)
 
 ```svelte
 // src/App.svelte
 <script lang="ts">
-// import {useState} from 'svelte-redux-store'
+  /**
+  * If you use <Provider>.
+  * you can import method from svelte-redux-store
+  */
+  import {
+     useDispatch,
+     useFeatureSelector,
+     useSelector,
+     useState,
+     useStore,
+     useSubscribe,
+   } from 'svelte-redux-store';
   import { decrement, increment, reset } from './store/creators';
   import {
-    useDispatch,
+    // useDispatch,
+    // useFeatureSelector
     useEffect,
-    useState,
-    useStore,
+    // useSelector,
+    // useState,
+    // useStore,
+    // useSubscribe,
     type AppState,
   } from './store/store';
   const store = useStore();
@@ -198,6 +244,11 @@ export default rootReducers;
   const count = store.selector((state: AppState) => state.count.count);
 
   // const count = useSelector((state: AppState) => state.counts.count);
+
+  // const counts = useFeatureSelector('counts');
+
+  // import useFeatureSelector from svelte-redux-store
+  // const counts = useFeatureSelector<AppState>('counts');
 
   // let count:number
   // store.subscribe((state:AppState) => { count = state.counts.count })
@@ -237,6 +288,7 @@ export default rootReducers;
           <button class="btn" on:click={decrement}> - </button>
           <!-- USE SELECTOR -->
           <p>{$count}</p>
+          <!-- <p>{$counts.count}</p> -->
           <!-- USE SUBSCRIBE -->
           <!-- <p>{count}</p> -->
           <button class="btn" on:click={increment}> + </button>

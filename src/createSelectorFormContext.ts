@@ -1,7 +1,10 @@
+import { getContext } from 'svelte';
 import { derived, type Readable } from 'svelte/store';
+import type { StoreContext } from './interfaces/StoreContext';
+import { storeKey } from './key';
 import type { State$ } from './types';
 
-export function createSelector<TState = unknown>(store: Readable<TState>) {
+export function createSelectorFromContext() {
   return function useSelector<TState, TSelected extends unknown>(
     selector: (values: TState) => TSelected
   ): State$<TSelected> {
@@ -16,11 +19,21 @@ export function createSelector<TState = unknown>(store: Readable<TState>) {
       }
     }
 
+    const ctx = getContext<StoreContext>(storeKey);
+
+    if (process.env.NODE_ENV !== 'production') {
+      if (!ctx) {
+        throw new Error(
+          'could not find svelte-redux-store context value; please ensure the component is wrapped in a <Provider {store}></Provider>'
+        );
+      }
+    }
+
     const { subscribe } = derived<
       Readable<TState>,
       TSelected
       // @ts-ignore
-    >(store, selector);
+    >(ctx.data, selector);
 
     return {
       subscribe,

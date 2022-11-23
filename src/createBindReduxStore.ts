@@ -1,11 +1,7 @@
 import { readable, type Subscriber, type Unsubscriber } from 'svelte/store';
-import type { Action as BaseAction, AnyAction, Store } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
+import type { Action as BaseAction, Store } from 'redux';
 import { createSelector } from './createSelector';
-
-declare type Invalidator<T> = (value?: T) => void;
-
-export type TypedDispatch<T> = ThunkDispatch<T, any, AnyAction>;
+import type { Invalidator, TypedDispatch } from './types';
 
 export function createBindReduxStore<T>(useDispatch: () => TypedDispatch<T>) {
   return function bindReduxStore<TState, Action extends BaseAction>(
@@ -15,7 +11,7 @@ export function createBindReduxStore<T>(useDispatch: () => TypedDispatch<T>) {
       let currentState: TState;
 
       const unsubscribe = store.subscribe(() => {
-        let nextState = store.getState();
+        const nextState = store.getState();
         if (nextState !== currentState) {
           currentState = nextState;
           set(store.getState());
@@ -36,7 +32,7 @@ export function createBindReduxStore<T>(useDispatch: () => TypedDispatch<T>) {
 
     const useSelector = createSelector(data);
 
-    function TypedUseSelector<TState>(): <TState, Selected>(
+    function TypedUseSelector(): <TState, Selected>(
       selector: (values: TState) => Selected
     ) => {
       subscribe: (
@@ -50,7 +46,7 @@ export function createBindReduxStore<T>(useDispatch: () => TypedDispatch<T>) {
 
     const newSubscribe = TypedSubscribe<T>();
     const dispatch = useDispatch();
-    const selector = TypedUseSelector<T>();
+    const selector = TypedUseSelector();
 
     return {
       subscribe: newSubscribe,
