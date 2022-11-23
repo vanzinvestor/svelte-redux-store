@@ -6,7 +6,7 @@ import type { State$ } from './types';
 
 export function createSelectorFromContext() {
   return function useSelector<TState, TSelected extends unknown>(
-    selector: (values: TState) => TSelected
+    selector: (state: TState) => TSelected
   ): State$<TSelected> {
     if (process.env.NODE_ENV !== 'production') {
       if (!selector) {

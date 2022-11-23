@@ -33,7 +33,7 @@ export function createBindReduxStore<T>(useDispatch: () => TypedDispatch<T>) {
     const useSelector = createSelector(data);
 
     function TypedUseSelector(): <TState, Selected>(
-      selector: (values: TState) => Selected
+      selector: (state: TState) => Selected
     ) => {
       subscribe: (
         this: void,

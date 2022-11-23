@@ -4,7 +4,7 @@ Use svelte with redux store. look like react-redux
 
 [![npm version](https://badge.fury.io/js/svelte-redux-store.svg)](https://badge.fury.io/js/svelte-redux-store)
 
-[Demo](https://stackblitz.com/edit/vitejs-vite-58jy3l?file=src%2FApp.svelte)
+[Demo](https://stackblitz.com/edit/demo-svelte-redux-store?file=src%2FMain.svelte,src%2FApp.svelte)
 
 ## Install
 
@@ -52,8 +52,8 @@ export const store = createStore(rootReducers, initialState, devTools);
 
 /**
  * If you use <Provider> (version 2.0.0 or latest).
- * you can import method from svelte-redux-store.
- * you don't have to create svelte redux store
+ * You can import { method } from 'svelte-redux-store';
+ * You don't have to create svelte redux store
  *
  */
 // create svelte redux store
@@ -68,7 +68,7 @@ export const {
 // create useState (if you want)
 export const { useState } = createUseState();
 // OR
-// import {useState} from 'svelte-redux-store'
+// import {useState} from 'svelte-redux-store';
 
 // create useEffect (if you want)
 export const { useEffect } = createUseEffect(onMount);
@@ -206,7 +206,7 @@ export default rootReducers;
 <script lang="ts">
   /**
   * If you use <Provider>.
-  * you can import method from svelte-redux-store
+  * You can import { method } from 'svelte-redux-store';
   *
   */
   import {
@@ -228,7 +228,11 @@ export default rootReducers;
     // useSubscribe,
     type AppState,
   } from './store/store';
-  const store = useStore();
+
+  // If use import { useStore } from 'svelte-redux-store';
+  const store = useStore<AppState>();
+
+  // const store = useStore();
   // const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -247,10 +251,10 @@ export default rootReducers;
 
   // const count = useSelector((state: AppState) => state.counts.count);
 
-  // const counts = useFeatureSelector('counts');
-
-  // If use import useFeatureSelector from svelte-redux-store
+  // If use import { useFeatureSelector } from 'svelte-redux-store';
   // const counts = useFeatureSelector<AppState>('counts');
+
+  // const counts = useFeatureSelector('counts');
 
   // let count:number
   // store.subscribe((state:AppState) => { count = state.counts.count })
