@@ -54,7 +54,8 @@ export const store = createStore(rootReducers, initialState, devTools);
  * If you use <Provider> (version 2.0.0 or latest).
  * you can import method from svelte-redux-store.
  * you don't have to create svelte redux store
- * /
+ *
+ */
 // create svelte redux store
 export const {
   useStore,
@@ -206,6 +207,7 @@ export default rootReducers;
   /**
   * If you use <Provider>.
   * you can import method from svelte-redux-store
+  *
   */
   import {
      useDispatch,
@@ -247,7 +249,7 @@ export default rootReducers;
 
   // const counts = useFeatureSelector('counts');
 
-  // import useFeatureSelector from svelte-redux-store
+  // If use import useFeatureSelector from svelte-redux-store
   // const counts = useFeatureSelector<AppState>('counts');
 
   // let count:number
