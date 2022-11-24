@@ -22,7 +22,7 @@ npm install redux redux-devtools-extension redux-thunk
 
 ## Use
 
-### Step 1 Create svelte redux store
+### Step 1 Create store
 
 ```ts
 // src/store/store.ts
@@ -53,8 +53,7 @@ export const store = createStore(rootReducers, initialState, devTools);
 /**
  * If you use <Provider> (version 2.0.0 or latest).
  * You can import { method } from 'svelte-redux-store';
- * You don't have to create svelte redux store
- *
+ * You don’t need to create svelte redux store
  */
 // create svelte redux store
 export const {
@@ -76,7 +75,7 @@ export const { useEffect } = createUseEffect(onMount);
 
 Remark: If you use rollup.js. Please see note in below
 
-### Step 2 Wrapped app component with `<Provider {store}></Provider>` _version 2.0.0 or latest (If you want)_
+### Step 2 Wrapped component with `<Provider {store}></Provider>` _version 2.0.0 or latest_ (If you want)
 
 ```svelte
 // src/Main.svelte
@@ -103,7 +102,7 @@ const main = new Main({
 export default main;
 ```
 
-### Step 3 Create counter action type
+### Step 3 Create action type
 
 ```ts
 // src/store/actions/counter.actions.ts
@@ -131,7 +130,7 @@ export type Action =
   | CounterResetAction;
 ```
 
-### Step 4 Create counter creator
+### Step 4 Create creator
 
 ```ts
 // src/store/creators/counter.creators.ts
@@ -151,7 +150,7 @@ export const reset = () => async (dispatch: Dispatch<Action>) => {
 };
 ```
 
-### Step 5 Create counter reducer
+### Step 5 Create reducer
 
 ```ts
 // src/store/reducers/counter.reducer.ts
@@ -207,7 +206,6 @@ export default rootReducers;
   /**
   * If you use <Provider>.
   * You can import { method } from 'svelte-redux-store';
-  *
   */
   import {
      useDispatch,
@@ -229,11 +227,14 @@ export default rootReducers;
     type AppState,
   } from './store/store';
 
-  // If use import { useStore } from 'svelte-redux-store';
+  /**
+   * If used useStore import from 'svelte-redux-store'
+   * import { useStore } from 'svelte-redux-store';
+   */
   const store = useStore<AppState>();
 
   // const store = useStore();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -251,7 +252,10 @@ export default rootReducers;
 
   // const count = useSelector((state: AppState) => state.counts.count);
 
-  // If use import { useFeatureSelector } from 'svelte-redux-store';
+  /**
+   * If used useFeatureSelector import from 'svelte-redux-store'
+   * import { useFeatureSelector } from 'svelte-redux-store';
+   */
   // const counts = useFeatureSelector<AppState>('counts');
 
   // const counts = useFeatureSelector('counts');
@@ -266,8 +270,8 @@ export default rootReducers;
   const handleClick = () => {
     setIsOpen(!$isOpen);
 
-    if (!$isOpen && $count > 0) {
-      store.dispatch(reset());
+    if (!$isOpen && $count != 0) {
+      dispatch(reset());
     }
   };
 
