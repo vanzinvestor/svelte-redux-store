@@ -24,6 +24,4 @@
   setContext<StoreContext>(storeKey, { store, data });
 </script>
 
-<div {...$$restProps}>
-  <slot {store} {data} />
-</div>
+<slot {store} {data} />
