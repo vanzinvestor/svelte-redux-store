@@ -1,23 +1,7 @@
-import {
-  writable,
-  type Subscriber,
-  type Unsubscriber,
-  type Writable,
-} from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
+import type { SetState, State$ } from './types';
 
-declare type Invalidator<T> = (value?: T) => void;
-
-declare type $State<T> = {
-  subscribe: (
-    this: void,
-    run: Subscriber<T>,
-    invalidate?: Invalidator<T>
-  ) => Unsubscriber;
-};
-
-declare type SetState<T> = (this: void, value: T) => void;
-
-function createGetState<TState>(store: Writable<TState>) {
+function createGetState<TState>(store: Writable<TState>): State$<TState> {
   const { subscribe } = store;
   return { subscribe };
 }
@@ -25,7 +9,7 @@ function createGetState<TState>(store: Writable<TState>) {
 export function createUseState() {
   return function useState<TState = any>(
     init: TState
-  ): [$State<TState>, SetState<TState>] {
+  ): [State$<TState>, SetState<TState>] {
     const store = writable<TState>(init);
 
     const $state = createGetState<TState>(store);

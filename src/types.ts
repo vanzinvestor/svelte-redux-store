@@ -13,3 +13,5 @@ export type State$<T> = {
     invalidate?: Invalidator<T>
   ) => Unsubscriber;
 };
+
+export type SetState<T> = (this: void, value: T) => void;

@@ -13,6 +13,8 @@ import { createFeatureSelectorFromContext } from './createFeatureSelectorFormCon
 import { createSubscribeFromContext } from './createSubscribeFromContext';
 import type { TypedDispatch } from './types';
 
+export * from './types';
+
 export function creatSvelteReduxStore<T = any>(store: Store<T>) {
   const useDefaultDispatch = createDispatch(store);
 
