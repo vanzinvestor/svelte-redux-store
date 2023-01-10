@@ -35,7 +35,6 @@ import {
   createUseState,
   creatSvelteReduxStore,
 } from 'svelte-redux-store'; //import this line
-import { onMount } from 'svelte';
 
 export type AppState = ReturnType<typeof rootReducers>;
 
@@ -70,7 +69,9 @@ export const { useState } = createUseState();
 // import {useState} from 'svelte-redux-store';
 
 // create useEffect (if you want)
-export const { useEffect } = createUseEffect(onMount);
+export const { useEffect } = createUseEffect();
+// OR
+// import {useEffect} from 'svelte-redux-store';
 ```
 
 Remark: If you use rollup.js. Please see note in below
@@ -281,11 +282,11 @@ export default rootReducers;
 
   let value;
 
-  $: useEffect(() => {
+  useEffect(() => {
     if ($isOpen) {
       value = $count * 2;
     }
-  }, [$isOpen, $count]);
+  }, [isOpen, count]);
 </script>
 
 <div class="app">

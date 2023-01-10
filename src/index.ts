@@ -63,7 +63,9 @@ export function createUseState() {
 
 export const { useState } = createUseState();
 
-export function createUseEffect(onMount: (fn: () => any) => void) {
-  const useEffect = createNewUseEffect(onMount);
+export function createUseEffect() {
+  const useEffect = createNewUseEffect();
   return { useEffect };
 }
+
+export const { useEffect } = createUseEffect();
