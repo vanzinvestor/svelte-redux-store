@@ -438,6 +438,16 @@ export default {
 [useState](useState)
 [useEffect](useEffect)
 
+## Contributing ✨
+
+Interested in contributing to this repo? Check out our and submit a PR for a new feature/bug fix.
+
+A big shoutout to all our contributors! You could be here too! ✨
+
+<a href="https://github.com/vanzinvestor/svelte-redux-store/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=vanzinvestor/svelte-redux-store" />
+</a>
+
 ## Inspire by
 
 [react-redux](https://github.com/reduxjs/react-redux)
