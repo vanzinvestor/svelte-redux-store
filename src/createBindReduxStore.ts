@@ -7,19 +7,7 @@ export function createBindReduxStore<T>(useDispatch: () => TypedDispatch<T>) {
   return function bindReduxStore<TState, Action extends BaseAction>(
     store: Store<TState, Action>
   ) {
-    const data = readable(store.getState(), (set) => {
-      let currentState: TState;
-
-      const unsubscribe = store.subscribe(() => {
-        const nextState = store.getState();
-        if (nextState !== currentState) {
-          currentState = nextState;
-          set(store.getState());
-        }
-      });
-
-      return unsubscribe;
-    });
+    const data = readableFromReduxStore(store);
 
     function TypedSubscribe<TState>(): (
       this: void,
@@ -55,3 +43,22 @@ export function createBindReduxStore<T>(useDispatch: () => TypedDispatch<T>) {
     };
   };
 }
+
+export function readableFromReduxStore<TState, Action extends BaseAction>(store: Store<TState, Action>){
+  const data = readable(store.getState(), (set) => {
+    let currentState = store.getState();   // renew the state when first subscriber triggers this callback
+    set(currentState)
+
+    const unsubscribe = store.subscribe(() => {
+      const nextState = store.getState();
+      if (nextState !== currentState) {
+        currentState = nextState;
+        set(currentState);
+      }
+    });
+
+    return unsubscribe;
+  });
+  return data;
+}
+    

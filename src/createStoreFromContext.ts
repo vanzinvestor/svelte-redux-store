@@ -15,7 +15,7 @@ export function createStoreFromContext() {
       invalidate?: Invalidator<TState> | undefined
     ) => Unsubscriber;
     dispatch: TypedDispatch<TState>;
-    selector: <TState, TSelected>(
+    selector: <TSelected>(
       selector: (state: TState) => TSelected
     ) => State$<TSelected>;
   } {
