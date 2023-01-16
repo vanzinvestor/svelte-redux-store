@@ -32,6 +32,7 @@ import thunk from 'redux-thunk';
 import rootReducers from './reducers';
 import {
   createUseEffect,
+  createUseLayoutEffect,
   createUseState,
   creatSvelteReduxStore,
 } from 'svelte-redux-store'; //import this line
@@ -72,6 +73,11 @@ export const { useState } = createUseState();
 export const { useEffect } = createUseEffect();
 // OR
 // import {useEffect} from 'svelte-redux-store';
+
+// create useLayoutEffect (if you want)
+export const { useLayoutEffect } = createUseLayoutEffect();
+// OR
+// import {useLayoutEffect} from 'svelte-redux-store';
 ```
 
 Remark: If you use rollup.js. Please see note in below
@@ -215,13 +221,15 @@ export default rootReducers;
      useState,
      useStore,
      useSubscribe,
+     useEffect,
+     useLayoutEffect,
    } from 'svelte-redux-store';
   import { decrement, increment, reset } from './store/creators';
   import {
     // useDispatch,
     // useFeatureSelector
-    useEffect,
-    useLayoutEffect,
+    // useEffect,
+    // useLayoutEffect,
     // useSelector,
     // useState,
     // useStore,
@@ -442,6 +450,7 @@ export default {
 [useSubscribe](useFeatureSelector)
 [useState](useState)
 [useEffect](useEffect)
+[useLayoutEffect](useLayoutEffect)
 
 ## Contributing ✨
 
