@@ -5,21 +5,16 @@ export function createUseEffect() {
   return function useEffect(fn: () => void | undefined | (() => void), deps?: Readable<unknown>[]) {
     const depsVal = deps ? ([] as unknown[]) : undefined; // Save values of readable dependency stores
 
-    let isMounted = false;
-
     let unsub: void | undefined | (() => void); // Effect's cleanup callback
 
     let previousDepsVal: unknown[] | undefined; // Snapshot of values of readable dependency stores
 
     onMount(() => {
-      isMounted = true;
       const unsubscribeDeps = deps?.map((d, i) =>
         d.subscribe(v => {
           if (depsVal) depsVal[i] = v;
         })
       ) // listen changes of readable dependency stores
-      checkDepsChange();
-      unsub = fn(); // initial run of effect happens when mounted, just like React
       return () => {
         unsub?.();
         unsubscribeDeps?.forEach(u => u());
@@ -27,26 +22,32 @@ export function createUseEffect() {
     });
 
     beforeUpdate(() => {
-      if (!isMounted) return; // This makes sure the first effect runs when onMount, like React
-      if (checkDepsChange()) unsub?.();
+      if (compareEffectDeps(depsVal, previousDepsVal)) unsub?.();
     });
 
     afterUpdate(() => {
-      if (checkDepsChange()) unsub = fn();
+      if (compareEffectDeps(depsVal, previousDepsVal)) {
+        unsub = fn()
+        previousDepsVal = depsVal ? [...depsVal] : undefined
+      };
     });
 
-    function checkDepsChange(): boolean {
-      if (!depsVal) return true; // No deps mean always change
-
-      const currentDepsVal = [...depsVal];
-      if (currentDepsVal.length !== previousDepsVal?.length) true;
-      for (let i = 0; i < currentDepsVal.length; i++) {
-        const curr = currentDepsVal[i];
-        const last = previousDepsVal?.[i];
-        if (!Object.is(curr, last)) return true; // Detects change
-      }
-      previousDepsVal = currentDepsVal;
-      return false; // no change
-    }
   }
+}
+
+export function compareEffectDeps(current?: unknown[], previous?: unknown[]): boolean {
+  if (!current) return true; // No deps mean always change
+
+  const currentDepsVal = [...current];
+  const doCompare = () => {
+    if (currentDepsVal.length !== previous?.length) return true;
+    for (let i = 0; i < currentDepsVal.length; i++) {
+      const curr = currentDepsVal[i];
+      const last = previous?.[i];
+      if (!Object.is(curr, last)) return true; // Detects change using same algorithm `Object.is` as React
+    }
+    return false; // no change
+  }
+  const result = doCompare()
+  return result
 }

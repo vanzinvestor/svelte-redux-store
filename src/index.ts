@@ -6,6 +6,7 @@ import { createSubscribe } from './createSubscribe';
 import { createBindReduxStore } from './createBindReduxStore';
 import { createUseState as createNewUseState } from './createUseState';
 import { createUseEffect as createNewUseEffect } from './createUseEffect';
+import { createUseLayoutEffect as createNewUseLayoutEffect } from './createUseLayoutEffect';
 import { createSelectorFromContext } from './createSelectorFormContext';
 import { createDispatchFromContext } from './createDispatchFromContext';
 import { createStoreFromContext } from './createStoreFromContext';
@@ -69,3 +70,10 @@ export function createUseEffect() {
 }
 
 export const { useEffect } = createUseEffect();
+
+export function createUseLayoutEffect() {
+  const useLayoutEffect = createNewUseLayoutEffect()
+  return { useLayoutEffect }
+}
+
+export const { useLayoutEffect } = createUseLayoutEffect()

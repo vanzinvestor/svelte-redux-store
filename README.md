@@ -221,6 +221,7 @@ export default rootReducers;
     // useDispatch,
     // useFeatureSelector
     useEffect,
+    useLayoutEffect,
     // useSelector,
     // useState,
     // useStore,
@@ -278,6 +279,10 @@ export default rootReducers;
 
   useEffect(() => {
     alert('useEffect onMount');
+  }, []);
+
+  useLayoutEffect(() => {
+    alert('useLayoutEffect before DOM update')
   }, []);
 
   let value;
